@@ -6,22 +6,33 @@ const Project = require("../models/gradProjModel");
 // @route   GET /api/goals
 // @access  Private
 const getGradProjs = asyncHandler(async (req, res) => {
-	const project = await Goal.find();
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-	res.status(200).json({ project });
+	const projects = await Project.find();
+
+	res.status(200).json({ projects });
 });
 
 // @desc    Set goal
 // @route   POST /api/goals
 // @access  Private
 const setGradProj = asyncHandler(async (req, res) => {
-	if (!req.body.text) {
+	if (
+		!req.body.title ||
+		!req.body.author ||
+		!req.body.text ||
+		!req.body.subject
+	) {
 		res.status(400);
-		throw new Error("please add a text field");
+		throw new Error("please add all text fields");
 	}
 
 	const project = await Project.create({
+		titel: req.body.titel,
+		author: req.body.author,
 		text: req.body.text, //create project doc with text
+		subject: req.body.subject,
 	});
 
 	res.status(200).json({ project });

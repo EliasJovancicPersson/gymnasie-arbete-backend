@@ -69,9 +69,7 @@ const updateGradProj = asyncHandler(async (req, res) => {
   res.status(200).json({ updatedProject });
 });
 
-// @desc    Delete goals
-// @route   DELETE /api/goals/:id
-// @access  Private
+// @desc    Delete project
 const deleteGradProj = asyncHandler(async (req, res) => {
   const project = await Project.findById(req.params.id);
 
@@ -85,4 +83,23 @@ const deleteGradProj = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
-module.exports = { getGradProjs, setGradProj, updateGradProj, deleteGradProj };
+// @desc    Get seperate proj
+const getGradProj = asyncHandler(async (req, res) => {
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    "content-type": "application/json",
+  });
+
+  const project = await Project.findById(req.params.id);
+
+  res.status(200).json({ project });
+});
+
+module.exports = {
+  getGradProjs,
+  setGradProj,
+  updateGradProj,
+  deleteGradProj,
+  getGradProj,
+};

@@ -1,6 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const https = require("https");
-const { BlobServiceClient } = require("@azure/storage-blob");
 
 const Project = require("../models/gradProjModel");
 
@@ -37,6 +35,9 @@ const setGradProj = asyncHandler(async (req, res) => {
 		res.status(400);
 		throw new Error("please add all text fields" + "    " + req.body);
 	}
+
+	//if no file
+
 	const project = await Project.create({
 		title: req.body.title,
 		author: req.body.author,

@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const { v4: uuidv4 } = require("uuid");
 
 const Project = require("../models/gradProjModel");
 
@@ -38,14 +39,17 @@ const setGradProj = asyncHandler(async (req, res) => {
 
 	//if no file
 
+	const id = uuidv4();
+
 	const project = await Project.create({
 		title: req.body.title,
 		author: req.body.author,
 		text: req.body.text, //create project doc with text
 		subject: req.body.subject,
+		_id: id,
 	});
 
-	res.status(200).json({ project } + req.body.title);
+	res.status(200).json(id);
 });
 
 // @desc    Update goals

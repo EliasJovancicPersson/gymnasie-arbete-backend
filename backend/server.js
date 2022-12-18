@@ -11,22 +11,20 @@ connectDB();
 
 const app = express();
 
-app.use(express.json());
-app.use(upload.array());
-
 app.all("/", function (req, res, next) {
-	res.set({
-		"Access-Control-Allow-Origin": "*",
-		"Access-Control-Allow-Headers": "content-type",
-		"content-type": "application/json",
-	});
-	next();
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "content-type",
+  });
+  next();
 });
+app.use(express.json());
+app.use(upload.array("files")); //creates req.files array
 
 app.use("/wiki", require("./routes/projRoutes"));
 
 app.use(errorHandler);
 
 app.listen(port, () => {
-	console.log(`server started on port ${port}`);
+  console.log(`server started on port ${port}`);
 });

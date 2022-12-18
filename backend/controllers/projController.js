@@ -25,7 +25,6 @@ const setGradProj = asyncHandler(async (req, res) => {
   res.set({
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "*",
-    "content-type": "application/x-www-form-urlencoded",
   });
 
   if (
@@ -50,7 +49,16 @@ const setGradProj = asyncHandler(async (req, res) => {
     _id: id,
   });
 
-  res.status(200).json(id);
+  console.log(req.files);
+  const url = `https://gyarbstorage.blob.core.windows.net/images/${req.files[0].originalname}/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-01-01T08:36:38Z&st=2022-12-18T00:36:38Z&sip=81.227.69.179&spr=https,http&sig=aTYVYZFiNOzHmHLQ0GGDLKbAGnOQeta7HrWd7jb7jL8%3D`; //TODO : hide url in env
+  //fetch with url and SAS token
+  fetch(url, {
+    method: "PUT",
+    headers: { "x-ms-blob-type": "BlockBlob" },
+    body: req.files[0].buffer, //send the buffer to be able to view it as a PNG or JPG
+  }).then((response) => console.log(response));
+
+  res.status(200).json(id + " | " + url);
 });
 
 // @desc    Update goals

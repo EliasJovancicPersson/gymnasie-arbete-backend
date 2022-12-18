@@ -49,7 +49,7 @@ const setGradProj = asyncHandler(async (req, res) => {
 		_id: id,
 	});
 	if (req.files) {
-		console.log(req.files);
+		console.log(req.files); //TODO : add a foreach loop to put each file
 		const url = `https://gyarbstorage.blob.core.windows.net/images/${req.files[0].originalname}/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-01-01T08:36:38Z&st=2022-12-18T00:36:38Z&sip=81.227.69.179&spr=https,http&sig=aTYVYZFiNOzHmHLQ0GGDLKbAGnOQeta7HrWd7jb7jL8%3D`; //TODO : hide url in env
 		//fetch with url and SAS token
 		fetch(url, {

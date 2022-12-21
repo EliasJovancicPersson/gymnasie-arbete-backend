@@ -1,7 +1,8 @@
 const express = require("express");
 const colors = require("colors");
 const dotenv = require("dotenv").config();
-const { errorHandler } = require("./middleware/errorMiddleware");
+const { ErrorHandler } = require("./middleware/errorMiddleware");
+const { CheckFiles } = require("./middleware/checkFileMiddleware");
 const connectDB = require("./config/db");
 const port = process.env.PORT || 5000;
 const multer = require("multer");
@@ -21,9 +22,11 @@ app.all("/", function (req, res, next) {
 app.use(express.json());
 app.use(upload.array("files")); //creates req.files array
 
+app.post("/wiki", CheckFiles);
+
 app.use("/wiki", require("./routes/projRoutes"));
 
-app.use(errorHandler);
+app.use(ErrorHandler);
 
 app.listen(port, () => {
   console.log(`server started on port ${port}`);

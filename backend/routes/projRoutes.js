@@ -10,7 +10,7 @@ const {
 
 router.route("/").get(getGradProjs).post(setGradProj);
 
-router.route("/:id").delete(deleteGradProj).put(updateGradProj);
+//router.route("/:id").delete(deleteGradProj).put(updateGradProj);
 
 router.route("/:id").get(getGradProj);
 

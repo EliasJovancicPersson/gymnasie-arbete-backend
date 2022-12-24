@@ -1,13 +1,33 @@
 const { response } = require("express");
 const asyncHandler = require("express-async-handler");
 const { v4: uuidv4 } = require("uuid");
-const { findByIdAndUpdate } = require("../models/gradProjModel");
+const { findByIdAndUpdate, findOne } = require("../models/gradProjModel");
 
 const Project = require("../models/gradProjModel");
 
-// @desc    Get goals
-// @route   GET /api/goals
+// @desc    Get projects with query
+// @route   GET /wiki/search
 // @access  Private
+const getGradProjsQuery = asyncHandler(async (req, res) => {
+  res.set({
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "*",
+    "content-type": "application/json",
+  });
+
+  const filter = Object.keys(req.query);
+
+  const regex = new RegExp(req.query[filter[0]], "i");
+
+  console.log(filter[0]);
+
+  const projects = await Project.find({ [filter[0]]: regex });
+
+  res.status(200).json({ projects });
+});
+
+// @desc    Get all projects
+// @route   GET /wiki
 const getGradProjs = asyncHandler(async (req, res) => {
   res.set({
     "Access-Control-Allow-Origin": "*",
@@ -135,4 +155,5 @@ module.exports = {
   updateGradProj,
   deleteGradProj,
   getGradProj,
+  getGradProjsQuery,
 };

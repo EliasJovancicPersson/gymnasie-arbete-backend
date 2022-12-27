@@ -20,7 +20,14 @@ app.all("/", function (req, res, next) {
   next();
 });
 app.use(express.json());
-app.use(upload.array("files")); //creates req.files array
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use("/", require("./routes/userRoutes"));
+
+app.post("/wiki", upload.array("files")); //creates req.files array
 
 app.post("/wiki", CheckFiles);
 

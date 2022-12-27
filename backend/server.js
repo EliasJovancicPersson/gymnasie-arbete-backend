@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const port = process.env.PORT || 5000;
 const multer = require("multer");
 const upload = multer();
-const verifyToken = require("./middleware/authJWT");
+const verifyToken = require("./middleware/authJWT"); //use this to ensure all users are logged in before sending a response/ if no token is present it will return status:500
 
 connectDB();
 

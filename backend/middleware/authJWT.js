@@ -33,7 +33,7 @@ const verifyToken = (req, res, next) => {
   } else {
     req.user = undefined;
     res.status(500).send({
-      message: "Verification failed",
+      message: "Verification failed", //send back error instead of cont
     });
   }
 };

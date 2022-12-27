@@ -55,7 +55,7 @@ exports.signin = (req, res) => {
       },
       process.env.API_SECRET,
       {
-        expiresIn: 86400,
+        expiresIn: "10 seconds",
       }
     );
 

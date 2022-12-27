@@ -26,8 +26,9 @@ const verifyToken = (req, res, next) => {
         }
       );
     } catch (err) {
+      console.log(err);
       res.status(500).send({
-        message: err + " Verification failed, wrong JWT",
+        message: "Verification failed, invalid JWT",
       });
     }
   } else {

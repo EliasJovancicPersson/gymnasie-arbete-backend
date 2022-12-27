@@ -2,7 +2,7 @@ const maxFileSize = 26214400;
 const array_of_allowed_files = ["png", "jpeg", "jpg", "gif"];
 
 const CheckFiles = (req, res, next) => {
-  if (req.files.length > 0) {
+  if (req.files) {
     //check files
     req.files.forEach((file) => {
       //check file type

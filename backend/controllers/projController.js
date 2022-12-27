@@ -70,7 +70,7 @@ const setGradProj = asyncHandler(async (req, res) => {
     _id: id,
   });
   const images = [];
-  if (req.files.length > 0) {
+  if (req.files) {
     console.log("files found");
     console.log(req.files);
     req.files.forEach((file) => {

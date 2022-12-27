@@ -3,14 +3,10 @@ User = require("../models/user");
 require("dotenv").config;
 
 const verifyToken = (req, res, next) => {
-  if (
-    req.headers &&
-    req.headers.authorization &&
-    req.headers.authorization.split(" ")[0] === "JWT"
-  ) {
+  if (req.headers && req.headers.authorization) {
     try {
       jwt.verify(
-        req.headers.authorization.split(" ")[1],
+        req.headers.authorization,
         process.env.API_SECRET,
         function (err, decode) {
           if (err) req.user = undefined;
@@ -36,7 +32,9 @@ const verifyToken = (req, res, next) => {
     }
   } else {
     req.user = undefined;
-    next();
+    res.status(500).send({
+      message: "Verification failed",
+    });
   }
 };
 module.exports = verifyToken;

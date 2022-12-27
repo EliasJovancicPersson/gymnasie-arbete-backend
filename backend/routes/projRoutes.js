@@ -18,4 +18,3 @@ router.route("/search/").get(getGradProjsQuery);
 router.route("/:id").get(getGradProj);
 
 module.exports = router;
-  

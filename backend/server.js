@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const port = process.env.PORT || 5000;
 const multer = require("multer");
 const upload = multer();
+const verifyToken = require("./middleware/authJWT");
 
 connectDB();
 
@@ -27,9 +28,7 @@ app.use(
 );
 app.use("/", require("./routes/userRoutes"));
 
-app.post("/wiki", upload.array("files")); //creates req.files array
-
-app.post("/wiki", CheckFiles);
+app.post("/wiki", verifyToken, upload.array("files"), CheckFiles); //creates req.files array
 
 app.use("/wiki", require("./routes/projRoutes"));
 

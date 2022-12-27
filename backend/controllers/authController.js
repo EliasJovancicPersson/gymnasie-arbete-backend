@@ -59,15 +59,10 @@ exports.signin = (req, res) => {
       }
     );
 
-    //responding to client request with user profile success message and  access token .
+    //responding to client request with user profile success message and  access token .¨
+    res.cookie("jwt", token, { httpOnly: true, sameSite: "strict" }); //send token as a cookie when logging in
     res.status(200).send({
-      user: {
-        id: user._id,
-        email: user.email,
-        fullName: user.fullName,
-      },
       message: "Login successfull",
-      accessToken: token,
     });
   });
 };

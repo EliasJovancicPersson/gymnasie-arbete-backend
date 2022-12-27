@@ -3,7 +3,8 @@ User = require("../models/user");
 require("dotenv").config;
 
 const verifyToken = (req, res, next) => {
-  if (req.headers && req.headers.authorization) {
+  if (req.headers.authorization) {
+    //check for a auth header
     try {
       jwt.verify(
         req.headers.authorization,
@@ -34,7 +35,7 @@ const verifyToken = (req, res, next) => {
   } else {
     req.user = undefined;
     res.status(500).send({
-      message: "Verification failed", //send back error instead of cont
+      message: "No auth headers present", //send back error instead of cont
     });
   }
 };

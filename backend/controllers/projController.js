@@ -19,8 +19,6 @@ const getGradProjsQuery = asyncHandler(async (req, res) => {
 
   const regex = new RegExp(req.query[filter[0]], "i");
 
-  console.log(filter[0]);
-
   const projects = await Project.find({ [filter[0]]: regex });
 
   res.status(200).json({ projects });

@@ -3,11 +3,12 @@ User = require("../models/user");
 require("dotenv").config;
 
 const verifyToken = (req, res, next) => {
-  if (req.headers.authorization) {
+  if (req.cookies.jwt) {
     //check for a auth header
     try {
+      console.log(req.cookies);
       jwt.verify(
-        req.headers.authorization,
+        req.cookies.jwt,
         process.env.API_SECRET,
         function (err, decode) {
           if (err) req.user = undefined;
@@ -35,7 +36,7 @@ const verifyToken = (req, res, next) => {
   } else {
     req.user = undefined;
     res.status(500).send({
-      message: "No auth headers present", //send back error instead of cont
+      message: "No jwt cookie present", //send back error instead of cont
     });
   }
 };

@@ -24,6 +24,9 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
+  console.log(req.body.email);
+
+  console.log(req.body.password);
   User.findOne({
     email: req.body.email,
   }).exec((err, user) => {
@@ -55,12 +58,17 @@ exports.signin = (req, res) => {
       },
       process.env.API_SECRET,
       {
-        expiresIn: 10,
+        expiresIn: "10 days",
       }
     );
 
     //responding to client request with user profile success message and  access token .¨
-    res.cookie("jwt", token, { httpOnly: true, sameSite: "strict" }); //send token as a cookie when logging in
+    res.cookie("jwt", token, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 9999999),
+      sameSite: "none",
+      secure: "true",
+    }); //send token as a cookie when logging in
     res.status(200).send({
       message: "Login successfull",
     });

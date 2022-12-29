@@ -9,11 +9,6 @@ const Project = require("../models/gradProjModel");
 // @route   GET /wiki/search
 // @access  Private
 const getGradProjsQuery = asyncHandler(async (req, res) => {
-  res.set({
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "*",
-    "content-type": "application/json",
-  });
 
   const filter = Object.keys(req.query);
 
@@ -27,12 +22,6 @@ const getGradProjsQuery = asyncHandler(async (req, res) => {
 // @desc    Get all projects
 // @route   GET /wiki
 const getGradProjs = asyncHandler(async (req, res) => {
-  res.set({
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "*",
-    "content-type": "application/json",
-  });
-
   const projects = await Project.find();
 
   res.status(200).json({ projects });
@@ -41,11 +30,6 @@ const getGradProjs = asyncHandler(async (req, res) => {
 // @desc    Set grad project without image
 // @route   POST /wiki
 const setGradProj = asyncHandler(async (req, res) => {
-  res.set({
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "*",
-  });
-
   if (
     !req.body.title ||
     !req.body.author ||
@@ -136,12 +120,6 @@ const deleteGradProj = asyncHandler(async (req, res) => {
 
 // @desc    Get seperate proj
 const getGradProj = asyncHandler(async (req, res) => {
-  res.set({
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "*",
-    "content-type": "application/json",
-  });
-
   const project = await Project.findById(req.params.id);
 
   res.status(200).json({ project });

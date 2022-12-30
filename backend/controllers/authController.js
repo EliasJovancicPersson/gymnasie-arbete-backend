@@ -62,14 +62,13 @@ exports.signin = (req, res) => {
       }
     );
 
-    //responding to client request with user profile success message and  access token .¨
+    //responding to client request with user profile success message and  access token
     res.cookie("jwt", token, {
-      httpOnly: false,
-      maxAge: 2592000000,
-      sameSite: "none",
-      domain: "localhost",
-      path: "/",
-      secure: "true",
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+      domain: "",
     }); //send token as a cookie when logging in
     res.status(200).send({
       message: "Login successfull",

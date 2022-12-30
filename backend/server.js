@@ -11,6 +11,17 @@ const multer = require("multer");
 const upload = multer();
 const verifyToken = require("./middleware/authJWT"); //use this to ensure all users are logged in before sending a response/ if no token is present it will return status:500
 
+const https = require("https");
+const fs = require("fs");
+
+var key = fs.readFileSync("C:/Users/batma/selfsigned.key");
+var cert = fs.readFileSync("C:/Users/batma/selfsigned.crt");
+
+var options = {
+  key: key,
+  cert: cert,
+};
+
 let corsOptions = {
   origin: "http://127.0.0.1:5500",
   credentials: true,
@@ -38,6 +49,8 @@ app.use("/wiki", require("./routes/projRoutes"));
 
 app.use(ErrorHandler);
 
-app.listen(port, () => {
+var server = https.createServer(options, app);
+
+server.listen(port, () => {
   console.log(`server started on port ${port}`);
 });

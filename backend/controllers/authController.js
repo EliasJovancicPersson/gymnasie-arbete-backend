@@ -65,8 +65,10 @@ exports.signin = (req, res) => {
     //responding to client request with user profile success message and  access token .¨
     res.cookie("jwt", token, {
       httpOnly: false,
-      expires: new Date(Date.now() + 9999999),
+      maxAge: 2592000000,
       sameSite: "none",
+      domain: "localhost",
+      path: "/",
       secure: "true",
     }); //send token as a cookie when logging in
     res.status(200).send({

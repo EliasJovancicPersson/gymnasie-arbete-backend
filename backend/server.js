@@ -11,7 +11,7 @@ const multer = require("multer");
 const upload = multer();
 const verifyToken = require("./middleware/authJWT"); //use this to ensure all users are logged in before sending a response/ if no token is present it will return status:500
 
-const https = require("https");
+//const https = require("https");
 const fs = require("fs");
 
 /*
@@ -55,8 +55,6 @@ app.use((req, res, next) => {
   res.status(404).send("Sorry can't find that!");
 });
 
-var server = https.createServer(app);
-
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`server started on port ${port}`);
 });

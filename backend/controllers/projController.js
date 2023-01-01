@@ -53,8 +53,6 @@ const setGradProj = asyncHandler(async (req, res) => {
   });
   const images = [];
   if (req.files) {
-    console.log("files found");
-    console.log(req.files);
     req.files.forEach((file) => {
       const url = `https://gyarbstorage.blob.core.windows.net/images/${file.originalname.replaceAll(
         " ",

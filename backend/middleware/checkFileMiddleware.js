@@ -11,7 +11,6 @@ const CheckFiles = (req, res, next) => {
         .pop()
         .toString()
         .toLowerCase();
-      console.log(fileType + (fileType == "png"));
       if (!array_of_allowed_files.includes(fileType)) {
         //wrong format, send error response
         throw new Error("FILE-FORMAT");

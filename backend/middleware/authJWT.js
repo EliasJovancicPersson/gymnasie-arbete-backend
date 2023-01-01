@@ -6,7 +6,6 @@ const verifyToken = (req, res, next) => {
   if (req.cookies.jwt) {
     //check for a auth header
     try {
-      console.log(req.cookies);
       jwt.verify(
         req.cookies.jwt,
         process.env.API_SECRET,

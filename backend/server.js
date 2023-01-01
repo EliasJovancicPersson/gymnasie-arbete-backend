@@ -51,7 +51,7 @@ app.use("/wiki", verifyToken, require("./routes/projRoutes"));
 
 app.use(ErrorHandler);
 
-var server = https.createServer(options, app);
+var server = https.createServer(app);
 
 server.listen(port, () => {
   console.log(`server started on port ${port}`);

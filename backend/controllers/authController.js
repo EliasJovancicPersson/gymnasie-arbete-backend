@@ -68,10 +68,19 @@ exports.signin = (req, res) => {
       secure: true,
       sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
-      domain: "",
     }); //send token as a cookie when logging in
     res.status(200).send({
       message: "Login successfull",
     });
   });
+};
+
+exports.signout = (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  res.status(200).send({ message: "logged out" });
 };

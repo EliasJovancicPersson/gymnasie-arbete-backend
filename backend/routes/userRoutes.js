@@ -1,18 +1,12 @@
 var express = require("express"),
   router = express.Router(),
   verifyToken = require("../middleware/authJWT"),
-  { signup, signin } = require("../controllers/authController.js");
+  { signup, signin, signout } = require("../controllers/authController.js");
 
 router.post("/register", signup, function (req, res) {});
 
 router.post("/login", signin, function (req, res) {});
 
-router.get("/hiddencontent", verifyToken, function (req, res) {
-  if (req.user) {
-    res.status(200).send({
-      message: "Congratulations! but there is no hidden content",
-    });
-  }
-});
+router.post("/logout", verifyToken, signout, function (req, res) {});
 
 module.exports = router;

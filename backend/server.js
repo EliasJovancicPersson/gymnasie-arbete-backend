@@ -14,6 +14,7 @@ const verifyToken = require("./middleware/authJWT"); //use this to ensure all us
 const https = require("https");
 const fs = require("fs");
 
+/*
 var key = fs.readFileSync("C:/Users/batma/selfsigned.key");
 var cert = fs.readFileSync("C:/Users/batma/selfsigned.crt");
 
@@ -21,9 +22,10 @@ var options = {
   key: key,
   cert: cert,
 };
+*/
 
 let corsOptions = {
-  origin: "http://127.0.0.1:5500",
+  origin: "https://127.0.0.1:5500",
   credentials: true,
 };
 
@@ -45,7 +47,7 @@ app.use("/", require("./routes/userRoutes"));
 
 app.post("/wiki", verifyToken, upload.array("files"), CheckFiles); //creates req.files array
 
-app.use("/wiki", require("./routes/projRoutes"));
+app.use("/wiki", verifyToken, require("./routes/projRoutes"));
 
 app.use(ErrorHandler);
 

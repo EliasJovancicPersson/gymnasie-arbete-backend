@@ -47,7 +47,7 @@ app.use("/", require("./routes/userRoutes"));
 
 app.post("/wiki", verifyToken, upload.array("files"), CheckFiles); //creates req.files array
 
-app.use("/wiki", verifyToken, require("./routes/projRoutes"));
+app.use("/wiki", require("./routes/projRoutes"));
 
 app.use(ErrorHandler);
 

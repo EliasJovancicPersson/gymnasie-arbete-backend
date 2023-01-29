@@ -68,7 +68,10 @@ exports.signin = (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     }); //send token as a cookie when logging in
     res.status(200).send({
-      message: "Login successfull",
+      authenticated: true,
+      id: user._id.toString(),
+      email: user.email,
+      name: user.fullName,
     });
   });
 };

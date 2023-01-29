@@ -69,9 +69,7 @@ exports.signin = (req, res) => {
     }); //send token as a cookie when logging in
     res.status(200).send({
       authenticated: true,
-      id: user._id.toString(),
-      email: user.email,
-      name: user.fullName,
+      user: { id: user._id.toString(), email: user.email, name: user.fullName },
     });
   });
 };

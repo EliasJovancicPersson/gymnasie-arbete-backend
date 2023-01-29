@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+import mongoose from "mongoose";
+const { ObjectId } = mongoose.Types;
 exports.signup = (req, res) => {
   const user = new User({
     fullName: req.body.fullName,
@@ -83,7 +85,7 @@ exports.signout = (req, res) => {
 };
 
 exports.getUser = (req, res) => {
-  User.findById(req.params.profileId).exec((err, user) => {
+  User.findById(ObjectId(req.params.profileId)).exec((err, user) => {
     if (err) {
       res.status(500).send({
         message: err,

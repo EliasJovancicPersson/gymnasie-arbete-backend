@@ -100,7 +100,7 @@ exports.getUser = (req, res) => {
     if (user) {
       return res.status(200).send({
         loggedIn: true,
-        id: toString(user._id),
+        id: toString(user.id),
         email: user.email,
         name: user.fullName,
       });

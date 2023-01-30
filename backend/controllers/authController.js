@@ -86,7 +86,7 @@ exports.signout = (req, res) => {
 };
 
 exports.getUser = (req, res) => {
-  User.findById(ObjectId(req.params.profileId)).exec((err, user) => {
+  User.findById(req.params.profileId).exec((err, user) => {
     if (err) {
       res.status(500).send({
         message: err,

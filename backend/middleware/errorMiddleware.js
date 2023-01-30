@@ -6,7 +6,7 @@ const ErrorHandler = (err, req, res, next) => {
   console.log(statusCode);
 
   res.set({
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": "https://127.0.0.1:5500",
     "Access-Control-Allow-Headers": "content-type",
   });
 

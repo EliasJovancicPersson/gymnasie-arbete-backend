@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getGradProjs,
-  setGradProj,
-  updateGradProj,
-  deleteGradProj,
-  getGradProj,
-  getGradProjsQuery,
+	getGradProjs,
+	setGradProj,
+	updateGradProj,
+	deleteGradProj,
+	getGradProj,
+	getGradProjsQuery,
 } = require("../controllers/projController");
 
 router.route("/").get(getGradProjs).post(setGradProj);

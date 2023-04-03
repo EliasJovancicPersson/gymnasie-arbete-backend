@@ -4,7 +4,7 @@ const { findByIdAndUpdate, findOne } = require("../models/gradProjModel");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(
-	process.env.AZURE_URL
+	process.env.AZURE_URI
 );
 const containerClient = blobServiceClient.getContainerClient("pdf");
 
@@ -38,7 +38,6 @@ const setGradProj = asyncHandler(async (req, res) => {
 		res.status(400);
 		throw new Error("please add all text fields" + "    " + req.body["title"]);
 	}
-
 	if (req.files) {
 		//upload pdf
 		let { buffer } = req.files["pdf"][0]; //TODO : add support for multiple files, should be just doing a foreach
@@ -52,18 +51,18 @@ const setGradProj = asyncHandler(async (req, res) => {
 				blobContentType: "application/pdf",
 			},
 		});
+		var pdfUrl = process.env.AZURE_URL + fileName;
 		//create url for pdf
 	}
 	const id = uuidv4();
-	/*
+
 	const project = await Project.create({
 		title: req.body.title,
 		author: req.body.author,
-		text: req.body.text, //create project doc with text
+		pdf: pdfUrl, //create project doc with text
 		subject: req.body.subject,
 		_id: id,
 	});
-  */
 	res.status(200).json({ id: id });
 });
 

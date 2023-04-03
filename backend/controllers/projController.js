@@ -4,7 +4,7 @@ const { findByIdAndUpdate, findOne } = require("../models/gradProjModel");
 const { BlobServiceClient } = require("@azure/storage-blob");
 
 const blobServiceClient = BlobServiceClient.fromConnectionString(
-	"DefaultEndpointsProtocol=https;AccountName=expresspdf;AccountKey=cJ3lP0tgaQGjNj0dF6tjWD6qAeLkxG7nTfpd2pkiRyKN8xXJbgVvT7lGl2wmdlkRPpeWseHWFagq+AStPYHdhA==;EndpointSuffix=core.windows.net"
+	process.env.AZURE_URL
 );
 const containerClient = blobServiceClient.getContainerClient("pdf");
 
@@ -39,19 +39,22 @@ const setGradProj = asyncHandler(async (req, res) => {
 		throw new Error("please add all text fields" + "    " + req.body["title"]);
 	}
 
-	const id = uuidv4();
-
 	if (req.files) {
 		//upload pdf
-		const { buffer, originalname } = req.files["pdf"][0]; //TODO : add support for multiple files, should be just doing a foreach
+		let { buffer } = req.files["pdf"][0]; //TODO : add support for multiple files, should be just doing a foreach
 
-		const blockBlobClient = containerClient.getBlockBlobClient(originalname);
+		const fileName = Date.now() + "-" + uuidv4();
+		console.log(fileName);
+
+		const blockBlobClient = containerClient.getBlockBlobClient(fileName);
 		const response = await blockBlobClient.uploadData(buffer, {
 			blobHTTPHeaders: {
 				blobContentType: "application/pdf",
 			},
 		});
+		//create url for pdf
 	}
+	const id = uuidv4();
 	/*
 	const project = await Project.create({
 		title: req.body.title,

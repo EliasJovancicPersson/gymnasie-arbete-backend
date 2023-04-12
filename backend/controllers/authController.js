@@ -12,13 +12,14 @@ exports.signup = (req, res) => {
 
 	user.save((err, user) => {
 		if (err) {
-			switch(err.code){
-				case 11000 :
-					res.status(500).send({
-						code:11000,
-						message: req.body.email + " is already associated with an account"
-					});
-			}
+			res.status(500).send(
+			{
+				error:err.name,
+				field:err.errors?.path,
+				field:err.errors,
+				code:err?.code,
+			});
+			console.log(err)
 			return;
 		} else {
 			res.status(200).send({

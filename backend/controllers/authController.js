@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 exports.signup = (req, res) => {
+	
 	const user = new User({
 		fullName: req.body.fullName,
 		email: req.body.email,
@@ -11,9 +12,13 @@ exports.signup = (req, res) => {
 
 	user.save((err, user) => {
 		if (err) {
-			res.status(500).send({
-				message: err,
-			});
+			switch(err.code){
+				case 11000 :
+					res.status(500).send({
+						code:11000,
+						message: req.body.email + " is already associated with an account"
+					});
+			}
 			return;
 		} else {
 			res.status(200).send({

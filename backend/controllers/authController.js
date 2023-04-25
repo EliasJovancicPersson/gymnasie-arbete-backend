@@ -6,7 +6,8 @@ exports.signup = (req, res) => {
 	const user = new User({
 		fullName: req.body.fullName,
 		email: req.body.email,
-		role: req.body.role,
+		username: req.body.username,
+		role: "normal",
 		password: bcrypt.hashSync(req.body.password, 8),
 	});
 

@@ -28,7 +28,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", require("./routes/userRoutes"));
+app.use("/auth/", require("./routes/userRoutes"));
 
 app.post(
 	"/wiki" /*, verifyToken*/,

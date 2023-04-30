@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+require("dotenv").config();
 const { OAuth2Client } = require('google-auth-library');
+const user = require("../models/user");
 
 async function verify(client_id, jwtToken) {
 
@@ -22,11 +24,12 @@ async function verify(client_id, jwtToken) {
     return payload;
 }
 
-function sendJWT(){
+function sendJWT(target,res){
+	console.log(target)
 	//signing token with user id
 	var token = jwt.sign(
 		{
-			id: user.id,
+			id: target.id,
 		},
 		process.env.API_SECRET,
 		{
@@ -43,6 +46,8 @@ function sendJWT(){
 	}); //send token as a cookie when logging in
 	res.status(200).send({
 		message: "Login successfull",
+		authenticated: true,
+		user : target
 	});
 }
 
@@ -137,7 +142,7 @@ exports.signin = (req, res) => {
 					message: "Invalid Password!",
 				});
 			}
-			sendJWT()
+			sendJWT(user,res)
 		});
 	}
 	

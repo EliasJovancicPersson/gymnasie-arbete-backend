@@ -25,7 +25,6 @@ async function verify(client_id, jwtToken) {
 }
 
 function sendJWT(target,res){
-	console.log(target)
 	//signing token with user id
 	var token = jwt.sign(
 		{
@@ -51,15 +50,15 @@ function sendJWT(target,res){
 	});
 }
 
-exports.signup = (req, res) => {
-	
+function createUser(fullName,email,username,password,res,googleAccount){
 	const user = new User({
-		fullName: req.body.fullName,
-		email: req.body.email,
-		username: req.body.username,
+		fullName: fullName,
+		email: email,
+		username: username,		// TODO : Add check for same username
+		password: !googleAccount ? bcrypt.hashSync(password, 8) : null,
 		role: "normal",
-		password: bcrypt.hashSync(req.body.password, 8),
-	});
+		googleAccount: googleAccount,
+	})
 
 	user.save((err, user) => {
 		if (err) {
@@ -73,11 +72,15 @@ exports.signup = (req, res) => {
 			console.log(err)
 			return;
 		} else {
-			res.status(200).send({
-				message: "User Registered successfully",
-			});
+			sendJWT(user,res)
 		}
 	});
+}
+
+exports.signup = (req, res) => {
+	
+	createUser(req.body.fullName,req.body.email,req.body.username,req.body.password,res,false)
+
 };
 
 exports.signin = (req, res) => {
@@ -104,12 +107,41 @@ exports.signin = (req, res) => {
 				if (error){
 				  console.log(error)
 				} else {
-				  console.log("result:", result)  //result is true if myData already exists
+				  console.log("result:", result)  //result is true the email from google jwt is already linked to a account
 				  if(result){
-					console.log("found")
+					User.findById(result._id).exec((err,user) =>{
+						console.log(user)
+						if(user.googleAccount){
+							//account linked with google
+							console.log("account linked")
+							sendJWT(user,res)
+						}
+						else{
+							//promt and ask if user wants to link account
+							console.log("link account?")
+							//if yes
+							user.googleAccount = true
+							user.save((err,user)=>{
+								if (err) {
+									res.status(500).send(
+									{
+										error:err.name,
+										field:err.errors?.path,
+										field:err.errors,
+										code:err?.code,
+									});
+									console.log(err)
+									return;
+								} else {
+									sendJWT(user,res)
+								}
+							})
+						}
+					})
 				  }
 				  else{
-					console.log(":(")
+					//Create account
+					createUser(response.name,response.email,response.name.replace(/\s+/g, '-'),null,res,true)
 				  }
 				}
 			  });

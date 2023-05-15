@@ -4,6 +4,7 @@ const User = require("../models/user");
 require("dotenv").config();
 const { OAuth2Client } = require('google-auth-library');
 const user = require("../models/user");
+const { randomInt } = require("crypto");
 
 async function verify(client_id, jwtToken) {
 
@@ -50,17 +51,33 @@ function sendJWT(target,res){
 	});
 }
 
-function createUser(fullName,email,username,password,res,googleAccount){
+function createUser(fullName,email,password,res,googleAccount){
+
+	let username = fullName.split(" ")
+	console.log(username)
+	let username1 = username[0] + "."
+	username.shift()
+	username.forEach(name => {
+		username1 = username1.concat(name.substring(0,3)) //max length first name 20, second name 30
+	});
+	username = username1
+
+	//TODO: Search database for usernames before creating a new user
+
+	// TODO: Add check for same username and make sure username is always unique and based on the users fullName with char limit
+
+	// TODO: Add check for if users exist and send relevant error code
 	const user = new User({
 		fullName: fullName,
 		email: email,
-		username: username,		// TODO : Add check for same username
+		username: username,		
 		password: !googleAccount ? bcrypt.hashSync(password, 8) : null,
 		role: "normal",
 		googleAccount: googleAccount,
 	})
 
 	user.save((err, user) => {
+		console.log(user)
 		if (err) {
 			res.status(500).send(
 			{
@@ -68,6 +85,7 @@ function createUser(fullName,email,username,password,res,googleAccount){
 				field:err.errors?.path,
 				field:err.errors,
 				code:err?.code,
+				value: err.keyValue ? err.keyValue : null
 			});
 			console.log(err)
 			return;
@@ -79,7 +97,7 @@ function createUser(fullName,email,username,password,res,googleAccount){
 
 exports.signup = (req, res) => {
 	
-	createUser(req.body.fullName,req.body.email,req.body.username,req.body.password,res,false)
+	createUser(req.body.fullName,req.body.email,req.body.password,res,false)
 
 };
 
